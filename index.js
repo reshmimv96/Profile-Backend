@@ -5,18 +5,30 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
+require('dotenv').config();
  
 app.use(bodyParser.json());
+
+const allowedOrigins = ["https://reshmimv96.github.io/"];
+
  
 // Middleware to allow cross-origin requests (important for React and Node to talk)
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow all origins in the allowedOrigins list
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error("Not allowed by CORS")); // Reject the request
+    }
+  }, // Replace with your frontend domain
+}));
  
 // Middleware to parse JSON requests
 app.use(express.json());
 
 // MongoDB Connection
-const mongoURI = 'mongodb+srv://reshmivijayan2017:yMmOiOFBBIcVkbx3@cluster0.od8qm.mongodb.net/';
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 
