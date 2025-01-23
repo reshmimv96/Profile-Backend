@@ -9,7 +9,7 @@ require('dotenv').config();
  
 app.use(bodyParser.json());
 
-const allowedOrigins = ["http://localhost:3000","https://reshmimv96.github.io/"];
+const allowedOrigins = ["http://localhost:5173","https://reshmimv96.github.io"];
 
  
 // Middleware to allow cross-origin requests (important for React and Node to talk)
